@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         const val RESULT_DETAIL_CODE = 123
 
         private const val SELECTED_MOVIE = "SELECTED_MOVIE"
-        private const val SEND_INVITATION = "SEND_INVITATION"
     }
 
     private var selectedMovieIndex: Int? = null
@@ -67,7 +66,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         savedInstanceState?.let {
-            updateTextViewColors(it.getInt(SELECTED_MOVIE))
+            val index = it.getInt(SELECTED_MOVIE)
+            updateTextViewColors(index)
         }
 
         detailButtons.forEachIndexed { i, btn ->

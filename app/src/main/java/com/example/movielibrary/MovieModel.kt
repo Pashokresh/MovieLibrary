@@ -5,4 +5,4 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-class MovieModel(val title: String, val description: String, val imgSource: Int): Parcelable
+data class MovieModel(val title: String, val description: String, val imgSource: Int): Parcelable
