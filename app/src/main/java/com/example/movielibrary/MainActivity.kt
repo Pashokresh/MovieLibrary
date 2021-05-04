@@ -49,6 +49,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setImageViews()
+        setTextViews()
+        setButtons()
+
+        savedInstanceState?.let {
+            selectedMovieIndex = it.getInt(SELECTED_MOVIE)
+            updateTextViewColors()
+        }
+    }
+
+    private fun setImageViews() {
         imageViews.forEachIndexed { index, imgView ->
             try {
                 imgView.setImageResource(movieModels[index].imgSource)
@@ -56,7 +67,9 @@ class MainActivity : AppCompatActivity() {
                 print(e.localizedMessage)
             }
         }
+    }
 
+    private fun setTextViews() {
         textViews.forEachIndexed { index, txtView ->
             try {
                 txtView.text = movieModels[index].title
@@ -64,24 +77,14 @@ class MainActivity : AppCompatActivity() {
                 print(e.localizedMessage)
             }
         }
+    }
 
-        savedInstanceState?.let {
-            val index = it.getInt(SELECTED_MOVIE)
-            updateTextViewColors(index)
-        }
-
+    private fun setButtons() {
         detailButtons.forEachIndexed { i, btn ->
             btn.setOnClickListener {
                 onClickAction(i)
             }
         }
-
-        inviteButton.setOnClickListener {
-            val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:"))
-            smsIntent.putExtra("sms_body", getString(R.string.invitation))
-            startActivity(smsIntent)
-        }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -89,6 +92,12 @@ class MainActivity : AppCompatActivity() {
 
         selectedMovieIndex?.let {
             outState.putInt(SELECTED_MOVIE, it)
+        }
+
+        inviteButton.setOnClickListener {
+            val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:"))
+            smsIntent.putExtra("sms_body", getString(R.string.invitation))
+            startActivity(smsIntent)
         }
     }
 
@@ -104,16 +113,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun onClickAction(filmIndex: Int) {
         selectedMovieIndex = filmIndex
-        updateTextViewColors(filmIndex)
+        updateTextViewColors()
 
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(MOVIE_MODEL, movieModels[filmIndex])
         startActivityForResult(intent, RESULT_DETAIL_CODE)
     }
 
-    private fun updateTextViewColors(selectedIndex: Int) {
+    private fun updateTextViewColors() {
         textViews.forEachIndexed { index, textView ->
-            textView.setTextColor(ResourcesCompat.getColor(resources, if (index == selectedIndex)  R.color.selectedTextColor else R.color.textColor, null))
+            textView.setTextColor(ResourcesCompat.getColor(resources, if (index == selectedMovieIndex)  R.color.selectedTextColor else R.color.textColor, null))
         }
     }
 }
