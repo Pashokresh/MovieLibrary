@@ -1,14 +1,10 @@
 package com.example.movielibrary
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.graphics.Canvas
-import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -93,9 +89,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = MovieAdapter(movieItems.toList(), { item: MovieItem, position: Int ->
             item.wasVisited = true
 
-            visitedMoviesIndexes?.let {
-                it.add(position)
-            } ?: run {
+            visitedMoviesIndexes?.add(position) ?: run {
                 visitedMoviesIndexes = MutableList(1) { position }
             }
 
@@ -105,15 +99,13 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(MOVIE_MODEL, item)
             startActivityForResult(intent, RESULT_DETAIL_CODE)
         }, { item ->
-            favoriteMovies?.let {
-                it.add(item)
-            } ?: run {
+            favoriteMovies?.add(item) ?: run {
                 favoriteMovies = mutableSetOf(item)
             }
             Log.d("MainActivity", "$favoriteMovies")
         })
 
-        val itemDecoration = CustomItemDecoration(
+        val itemDecoration = DividerItemDecoration(
             this,
             if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) DividerItemDecoration.HORIZONTAL else DividerItemDecoration.VERTICAL
         )
@@ -167,19 +159,9 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(R.string.exit)
             .setMessage(R.string.exitMessage)
-            .setPositiveButton(R.string.yes) { dialog, which -> super.onBackPressed() }
-            .setNegativeButton(R.string.no) {dialog, which -> }
+            .setPositiveButton(R.string.yes) { _, _ -> super.onBackPressed() }
+            .setNegativeButton(R.string.no) {_, _ -> }
             .create()
             .show()
-    }
-
-    class CustomItemDecoration(context: Context, orientation: Int) : DividerItemDecoration(context, orientation) {
-        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-            super.onDraw(c, parent, state)
-        }
-
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            super.getItemOffsets(outRect, view, parent, state)
-        }
     }
 }
