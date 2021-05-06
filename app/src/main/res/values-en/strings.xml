@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieLibrary</string>
+    <string name="details">Details</string>
+    <string name="invitation">Check out this amazing app</string>
+    <string name="inviteFriend">Invite</string>
+    <string name="likeIt">Like</string>
+    <string name="comment_hint">Comment</string>
+    <string name="favorites">Favorites</string>
+    <string name="noFavoriteMovies">There is no favorite movies</string>
+    <string name="exitMessage">Are you sure, you want to exit the app?</string>
+    <string name="exit">Exit</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>
