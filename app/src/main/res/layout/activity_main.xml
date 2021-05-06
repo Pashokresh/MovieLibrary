@@ -6,13 +6,149 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/firstImg"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:minHeight="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@tools:sample/backgrounds/scenic"/>
+
+            <TextView
+                android:id="@+id/firstTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/firstImg"
+                app:layout_constraintStart_toEndOf="@+id/firstImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constrainedWidth="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                tools:text="@tools:sample/full_names"
+                />
+
+            <Button
+                android:id="@+id/firstDetailBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/firstImg"
+                app:layout_constraintStart_toEndOf="@+id/firstImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/details"
+                />
+
+
+            <ImageView
+                android:id="@+id/secondImg"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:minHeight="200dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/firstImg"
+                tools:background="@tools:sample/backgrounds/scenic"/>
+
+            <TextView
+                android:id="@+id/secondTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/secondImg"
+                app:layout_constraintStart_toEndOf="@+id/secondImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constrainedWidth="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                tools:text="@tools:sample/full_names"
+                />
+
+            <Button
+                android:id="@+id/secondDetailBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/secondImg"
+                app:layout_constraintStart_toEndOf="@+id/secondImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/details"
+                />
+
+
+            <ImageView
+                android:id="@+id/thirdImg"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secondImg"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:minHeight="200dp"
+                tools:background="@tools:sample/backgrounds/scenic"/>
+
+            <TextView
+                android:id="@+id/thirdTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/thirdImg"
+                app:layout_constraintStart_toEndOf="@+id/thirdImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constrainedWidth="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:maxLines="3"
+                tools:text="@tools:sample/full_names"
+                />
+
+            <Button
+                android:id="@+id/thirdDetailBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/thirdImg"
+                app:layout_constraintStart_toEndOf="@+id/thirdImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/details"
+                />
+
+            <Button
+                android:id="@+id/invitationBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/thirdImg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/inviteFriend"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
