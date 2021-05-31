@@ -1,6 +1,5 @@
 package com.example.movielibrary
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -25,13 +24,7 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-        favoriteMovieItems = intent.getParcelableArrayListExtra(MainActivity.FAVORITE_MOVIES)
-
-        savedInstanceState?.let {
-            it.getParcelableArrayList<MovieItem>(MainActivity.FAVORITE_MOVIES)?.let { array ->
-                favoriteMovieItems = array.toMutableList()
-            }
-        }
+        favoriteMovieItems = DataRepository.movieItems.filter { item -> item.isFavorite}.toMutableList()
 
         setViews()
     }
@@ -42,9 +35,10 @@ class FavoritesActivity : AppCompatActivity() {
 
             val layoutManager = LinearLayoutManager(this)
             recyclerView.layoutManager = layoutManager
-            recyclerView.adapter = FavoritesAdapter(favItems) { item, position ->
+            recyclerView.adapter = FavoritesAdapter(favItems) { item, _ ->
                 val currentPosition = favItems.indexOf(item)
-                favItems.remove(item)
+                item.isFavorite = false
+                favItems.removeAt(currentPosition)
 
                 recyclerView.adapter?.notifyItemRemoved(currentPosition)
             }
@@ -55,19 +49,7 @@ class FavoritesActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        favoriteMovieItems?.let {
-            outState.putParcelableArray(MainActivity.FAVORITE_MOVIES, it.toTypedArray())
-        }
-    }
-
     override fun onBackPressed() {
-        favoriteMovieItems?.let {
-            setResult(MainActivity.RESULT_FAVORITE_CODE,
-                Intent().putParcelableArrayListExtra(MainActivity.FAVORITE_MOVIES, ArrayList(it)))
-        }
         finish()
         super.onBackPressed()
     }

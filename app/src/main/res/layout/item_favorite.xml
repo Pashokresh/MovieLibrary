@@ -45,7 +45,7 @@
         app:layout_constraintStart_toEndOf="@+id/favoriteTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@android:drawable/ic_delete"
+        android:background="@android:drawable/btn_star_big_on"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

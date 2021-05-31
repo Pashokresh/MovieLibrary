@@ -17,36 +17,13 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val MOVIE_MODEL = "MOVIE_MODEL"
-        const val FAVORITE_MOVIES = "FAVORITE_MOVIES"
         const val RESULT_DETAIL_CODE = 123
-        const val RESULT_FAVORITE_CODE = 321
 
         private const val SELECTED_MOVIES = "SELECTED_MOVIES"
     }
 
-    private val movieItems: Array<MovieItem> by lazy {
-        arrayOf(
-            MovieItem(
-                title = getString(R.string.firstMovieTitle),
-                description = getString(R.string.firstMovieDescription),
-                imgSource = R.drawable.first
-            ),
-            MovieItem(
-                title = getString(R.string.secondMovieTitle),
-                description = getString(R.string.secondMovieDescription),
-                imgSource = R.drawable.second
-            ),
-            MovieItem(
-                title = getString(R.string.thirdMovieTitle),
-                description = getString(R.string.thirdMovieDescription),
-                imgSource = R.drawable.third
-            )
-        )
-    }
 
     private var visitedMoviesIndexes: MutableList<Int>? = null
-
-    private var favoriteMovies: MutableSet<MovieItem>? = null
 
     private val recyclerView: RecyclerView by lazy {
         findViewById(R.id.recyclerView)
@@ -68,14 +45,10 @@ class MainActivity : AppCompatActivity() {
             state.getIntegerArrayList(SELECTED_MOVIES)?.let { array ->
                 visitedMoviesIndexes = array.toMutableList()
             }
-
-            state.getParcelableArrayList<MovieItem>(FAVORITE_MOVIES)?.let { array ->
-                favoriteMovies = array.toMutableSet()
-            }
         }
 
         visitedMoviesIndexes?.forEach {
-            movieItems[it].wasVisited = true
+            DataRepository.movieItems[it].wasVisited = true
         }
 
         initRecycler()
@@ -86,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         val layoutManager =
             if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) GridLayoutManager(this, 3) else LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = MovieAdapter(movieItems.toList(), { item: MovieItem, position: Int ->
+        recyclerView.adapter = MovieAdapter(DataRepository.movieItems.toList(), { item: MovieItem, position: Int ->
             item.wasVisited = true
 
             visitedMoviesIndexes?.add(position) ?: run {
@@ -99,10 +72,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(MOVIE_MODEL, item)
             startActivityForResult(intent, RESULT_DETAIL_CODE)
         }, { item ->
-            favoriteMovies?.add(item) ?: run {
-                favoriteMovies = mutableSetOf(item)
-            }
-            Log.d("MainActivity", "$favoriteMovies")
+            item.isFavorite = true
         })
 
         val itemDecoration = DividerItemDecoration(
@@ -122,8 +92,7 @@ class MainActivity : AppCompatActivity() {
 
         favoritesButton.setOnClickListener {
             val intent = Intent(this, FavoritesActivity::class.java)
-            favoriteMovies?.let { intent.putParcelableArrayListExtra(FAVORITE_MOVIES, ArrayList(it)) }
-            startActivityForResult(intent, RESULT_FAVORITE_CODE)
+            startActivity(intent)
         }
     }
 
@@ -133,10 +102,6 @@ class MainActivity : AppCompatActivity() {
         visitedMoviesIndexes?.let {
             outState.putIntegerArrayList(SELECTED_MOVIES, ArrayList(it))
         }
-
-        favoriteMovies?.let {
-            outState.putParcelableArrayList(FAVORITE_MOVIES, ArrayList(it))
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -145,12 +110,6 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == RESULT_DETAIL_CODE) {
             data?.getParcelableExtra<FeedBackModel>(DetailActivity.FEEDBACK_VAL)?.let {
                 Log.d("MainActivity", "like: ${it.like}, comment: ${it.comment}")
-            }
-        }
-
-        if (requestCode == RESULT_FAVORITE_CODE) {
-            data?.getParcelableArrayListExtra<MovieItem>(FAVORITE_MOVIES)?.let {
-                favoriteMovies = it.toMutableSet()
             }
         }
     }
