@@ -44,7 +44,7 @@ class DetailActivity : AppCompatActivity() {
 
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val movieModel = intent.getParcelableExtra<MovieModel>(MainActivity.MOVIE_MODEL)
+        val movieModel = intent.getParcelableExtra<MovieItem>(MainActivity.MOVIE_MODEL)
         movieModel?.let {
             imageView.setImageResource(it.imgSource)
             titleView.text = it.title
@@ -70,7 +70,6 @@ class DetailActivity : AppCompatActivity() {
 
             return true
         }
-
         return super.onOptionsItemSelected(item)
     }
 }

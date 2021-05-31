@@ -1,14 +1,17 @@
 package com.example.movielibrary
 
 import android.content.Intent
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,88 +19,88 @@ class MainActivity : AppCompatActivity() {
         const val MOVIE_MODEL = "MOVIE_MODEL"
         const val RESULT_DETAIL_CODE = 123
 
-        private const val SELECTED_MOVIE = "SELECTED_MOVIE"
-    }
-
-    private var selectedMovieIndex: Int? = null
-
-    private val movieModels: Array<MovieModel> by lazy {
-        arrayOf(
-                MovieModel(title = getString(R.string.firstMovieTitle), description = getString(R.string.firstMovieDescription), imgSource = R.drawable.first),
-                MovieModel(title = getString(R.string.secondMovieTitle), description = getString(R.string.secondMovieDescription), imgSource = R.drawable.second),
-                MovieModel(title = getString(R.string.thirdMovieTitle), description = getString(R.string.thirdMovieDescription), imgSource = R.drawable.third))
-    }
-
-    private val imageViews: Array<ImageView> by lazy {
-        arrayOf(findViewById(R.id.firstImg), findViewById(R.id.secondImg), findViewById(R.id.thirdImg))
+        private const val SELECTED_MOVIES = "SELECTED_MOVIES"
     }
 
 
-    private val textViews: Array<TextView> by lazy {
-        arrayOf(findViewById(R.id.firstTitle), findViewById(R.id.secondTitle), findViewById(R.id.thirdTitle))
-    }
+    private var visitedMoviesIndexes: MutableList<Int>? = null
 
-    private val detailButtons: Array<Button> by lazy {
-        arrayOf(findViewById(R.id.firstDetailBtn), findViewById(R.id.secondDetailBtn), findViewById(R.id.thirdDetailBtn))
+    private val recyclerView: RecyclerView by lazy {
+        findViewById(R.id.recyclerView)
     }
 
     private val inviteButton: Button by lazy {
-        findViewById(R.id.invitationBtn)
+        findViewById(R.id.inviteBtn)
+    }
+
+    private val favoritesButton: Button by lazy {
+        findViewById(R.id.favoritesBtn)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setImageViews()
-        setTextViews()
+        savedInstanceState?.let { state ->
+            state.getIntegerArrayList(SELECTED_MOVIES)?.let { array ->
+                visitedMoviesIndexes = array.toMutableList()
+            }
+        }
+
+        visitedMoviesIndexes?.forEach {
+            DataRepository.movieItems[it].wasVisited = true
+        }
+
+        initRecycler()
         setButtons()
-
-        savedInstanceState?.let {
-            selectedMovieIndex = it.getInt(SELECTED_MOVIE)
-            updateTextViewColors()
-        }
     }
 
-    private fun setImageViews() {
-        imageViews.forEachIndexed { index, imgView ->
-            try {
-                imgView.setImageResource(movieModels[index].imgSource)
-            } catch (e: IndexOutOfBoundsException) {
-                print(e.localizedMessage)
-            }
-        }
-    }
+    private fun initRecycler() {
+        val layoutManager =
+            if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) GridLayoutManager(this, 3) else LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = MovieAdapter(DataRepository.movieItems.toList(), { item: MovieItem, position: Int ->
+            item.wasVisited = true
 
-    private fun setTextViews() {
-        textViews.forEachIndexed { index, txtView ->
-            try {
-                txtView.text = movieModels[index].title
-            } catch (e: IndexOutOfBoundsException) {
-                print(e.localizedMessage)
+            visitedMoviesIndexes?.add(position) ?: run {
+                visitedMoviesIndexes = MutableList(1) { position }
             }
-        }
+
+            recyclerView.adapter?.notifyItemChanged(position)
+
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(MOVIE_MODEL, item)
+            startActivityForResult(intent, RESULT_DETAIL_CODE)
+        }, { item ->
+            item.isFavorite = true
+        })
+
+        val itemDecoration = DividerItemDecoration(
+            this,
+            if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) DividerItemDecoration.HORIZONTAL else DividerItemDecoration.VERTICAL
+        )
+        recyclerView.addItemDecoration(itemDecoration)
+
     }
 
     private fun setButtons() {
-        detailButtons.forEachIndexed { i, btn ->
-            btn.setOnClickListener {
-                onClickAction(i)
-            }
+        inviteButton.setOnClickListener {
+            val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:"))
+            smsIntent.putExtra("sms_body", getString(R.string.invitation))
+            startActivity(smsIntent)
+        }
+
+        favoritesButton.setOnClickListener {
+            val intent = Intent(this, FavoritesActivity::class.java)
+            startActivity(intent)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        selectedMovieIndex?.let {
-            outState.putInt(SELECTED_MOVIE, it)
-        }
-
-        inviteButton.setOnClickListener {
-            val smsIntent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:"))
-            smsIntent.putExtra("sms_body", getString(R.string.invitation))
-            startActivity(smsIntent)
+        visitedMoviesIndexes?.let {
+            outState.putIntegerArrayList(SELECTED_MOVIES, ArrayList(it))
         }
     }
 
@@ -111,18 +114,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onClickAction(filmIndex: Int) {
-        selectedMovieIndex = filmIndex
-        updateTextViewColors()
-
-        val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(MOVIE_MODEL, movieModels[filmIndex])
-        startActivityForResult(intent, RESULT_DETAIL_CODE)
-    }
-
-    private fun updateTextViewColors() {
-        textViews.forEachIndexed { index, textView ->
-            textView.setTextColor(ResourcesCompat.getColor(resources, if (index == selectedMovieIndex)  R.color.selectedTextColor else R.color.textColor, null))
-        }
+    override fun onBackPressed() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.exit)
+            .setMessage(R.string.exitMessage)
+            .setPositiveButton(R.string.yes) { _, _ -> super.onBackPressed() }
+            .setNegativeButton(R.string.no) {_, _ -> }
+            .create()
+            .show()
     }
 }

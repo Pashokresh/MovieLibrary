@@ -1,14 +1,21 @@
 <resources>
     <string name="app_name">MovieLibrary</string>
     <string name="details">Детали</string>
-    <string name="firstMovieTitle">Криминальное чтиво</string>
-    <string name="firstMovieDescription">Двое бандитов Винсент Вега и Джулс Винфилд ведут философские беседы в перерывах между разборками и решением проблем с должниками криминального босса Марселласа Уоллеса.
+    <string name="firstMovieTitle" translatable="false">Криминальное чтиво</string>
+    <string name="firstMovieDescription" translatable="false">Двое бандитов Винсент Вега и Джулс Винфилд ведут философские беседы в перерывах между разборками и решением проблем с должниками криминального босса Марселласа Уоллеса.
 В первой истории Винсент проводит незабываемый вечер с женой Марселласа Мией. Во второй рассказывается о боксёре Бутче Кулидже, купленном Уоллесом, чтобы сдать бой. В третьей истории Винсент и Джулс по нелепой случайности попадают в неприятности.</string>
-    <string name="secondMovieTitle">Однажды в Голливуде</string>
-    <string name="secondMovieDescription">1969 год, золотой век Голливуда уже закончился. Известный актёр Рик Далтон и его дублер Клифф Бут пытаются найти свое место в стремительно меняющемся мире киноиндустрии.</string>
-    <string name="thirdMovieTitle">Омерзительная восьмерка</string>
-    <string name="thirdMovieDescription">США после Гражданской войны. Легендарный охотник за головами Джон Рут по кличке Вешатель конвоирует заключенную. По пути к ним прибиваются еще несколько путешественников. Снежная буря вынуждает компанию искать укрытие в лавке на отшибе, где уже расположилось весьма пестрое общество: генерал конфедератов, мексиканец, ковбой… И один из них - не тот, за кого себя выдает.</string>
+    <string name="secondMovieTitle" translatable="false">Однажды в Голливуде</string>
+    <string name="secondMovieDescription" translatable="false">1969 год, золотой век Голливуда уже закончился. Известный актёр Рик Далтон и его дублер Клифф Бут пытаются найти свое место в стремительно меняющемся мире киноиндустрии.</string>
+    <string name="thirdMovieTitle" translatable="false">Омерзительная восьмерка</string>
+    <string name="thirdMovieDescription" translatable="false">США после Гражданской войны. Легендарный охотник за головами Джон Рут по кличке Вешатель конвоирует заключенную. По пути к ним прибиваются еще несколько путешественников. Снежная буря вынуждает компанию искать укрытие в лавке на отшибе, где уже расположилось весьма пестрое общество: генерал конфедератов, мексиканец, ковбой… И один из них - не тот, за кого себя выдает.</string>
     <string name="invitation">Посмотри, какое классное приложение "MovieLibrary"</string>
-    <string name="inviteFriend">Пригласить друга</string>
+    <string name="inviteFriend">Пригласить</string>
     <string name="likeIt">Мне нравится</string>
+    <string name="comment_hint">Ваш комментарий</string>
+    <string name="favorites">Избранные</string>
+    <string name="noFavoriteMovies">Нет фильмов в избранном</string>
+    <string name="exitMessage">Вы уверены, что хотите выйти из приложения?</string>
+    <string name="exit">Выход</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>
