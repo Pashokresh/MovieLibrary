@@ -8,14 +8,38 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), MoviesListFragment.ButtonsClickListener {
+
+    private lateinit var bottomMenu: BottomNavigationView
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        when (menuItem.itemId) {
+            R.id.list_menu_item -> {
+                onMovieList()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.favorites_menu_item -> {
+                onFavoritesClick()
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setBottomMenu()
+
         onMovieList()
+    }
+
+    private fun setBottomMenu() {
+        bottomMenu = findViewById(R.id.bottom_navigation)
+        bottomMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     private fun onMovieList() {

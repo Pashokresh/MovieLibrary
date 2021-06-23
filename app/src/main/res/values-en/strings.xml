@@ -15,4 +15,5 @@
     <string name="wasAddedTo">was added to</string>
     <string name="cancel">Cancel</string>
     <string name="wasRemovedFrom">was removed from</string>
+    <string name="allMovies">All movies</string>
 </resources>

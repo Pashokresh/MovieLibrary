@@ -24,8 +24,6 @@ class MoviesListFragment : Fragment() {
 
     private lateinit var inviteButton: Button
 
-    private lateinit var favoritesButton: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,8 +46,6 @@ class MoviesListFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerView)
         inviteButton = view.findViewById(R.id.inviteBtn)
-        favoritesButton = view.findViewById(R.id.favoritesBtn)
-
 
         initRecycler()
         setButtons()
@@ -89,10 +85,6 @@ class MoviesListFragment : Fragment() {
     private fun setButtons() {
         inviteButton.setOnClickListener {
             (activity as? ButtonsClickListener)?.onInviteClick()
-        }
-
-        favoritesButton.setOnClickListener {
-            (activity as? ButtonsClickListener)?.onFavoritesClick()
         }
     }
 
