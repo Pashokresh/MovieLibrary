@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/list_menu_item"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_gallery"
+        android:title="@string/allMovies"/>
+    <item
+        android:id="@+id/favorites_menu_item"
+        android:enabled="true"
+        android:icon="@android:drawable/star_on"
+        android:title="@string/favorites"/>
+</menu>

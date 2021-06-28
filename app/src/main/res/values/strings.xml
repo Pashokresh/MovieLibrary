@@ -18,4 +18,8 @@
     <string name="exit">Выход</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="wasAddedTo">добавлен в</string>
+    <string name="cancel">Отмена</string>
+    <string name="wasRemovedFrom">удален из</string>
+    <string name="allMovies">Все фильмы</string>
 </resources>

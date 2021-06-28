@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ContentDescription"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -25,14 +26,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteBtn"
         app:layout_constraintStart_toEndOf="@+id/itemImage"
         app:layout_constraintTop_toTopOf="@+id/itemImage"
         tools:text="@tools:sample/full_names" />
+
+    <ImageButton
+        android:id="@+id/favoriteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@+id/itemTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/itemTitle"
+        android:background="@android:drawable/btn_star_big_on"
+        app:layout_constraintHorizontal_weight="1" />
 
     <Button
         android:id="@+id/detailBtn"

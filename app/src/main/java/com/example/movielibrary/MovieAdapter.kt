@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 class MovieAdapter(
     private val items: List<MovieItem>,
     private val detailAction: ((item: MovieItem, position: Int) -> Unit),
-    private val addFavoriteAction: ((item: MovieItem) -> Unit)
+    private val addFavoriteAction: ((item: MovieItem, position: Int) -> Unit)
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
